@@ -15,7 +15,6 @@ def get_decay(epi_iter):
     decay = math.pow(0.99999999, epi_iter)
     if decay < 0.01:
         decay = 0.01
-    print(decay)
     return decay
 
 class Meta(nn.Module):

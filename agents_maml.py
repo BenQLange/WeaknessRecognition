@@ -32,8 +32,6 @@ class AgentMAML(object):
         Q, _ = self.network.forward(observation, hidden, weights)
         Q_next, _ = self.network.forward(new_observation, hidden, weights)
         Q_est = Q_next.clone()
-        print("Q_learning")
-        print(Q.shape)
         max_next_q = torch.max(Q_est[0, 0, :]).clone().detach()
         Q_est[0, 0, action] = reward + self.gamma * max_next_q
 
@@ -42,11 +40,9 @@ class AgentMAML(object):
 
     def get_action(self, obs, hidden, epsilon, weights=None):
         if random.random() > epsilon:
-            print("HEREREER")
             q, new_hidden = self.network.forward(obs, hidden, weights) #Modify
             #action = q[0].max(1)[1].data[0].item()
             top_actions = q[0].topk(10)[1].data
-            print(list(top_actions[0].numpy()))
             for action in list(top_actions[0].numpy()):
                 if action not in self.visited:
                     self.visited.append(action)

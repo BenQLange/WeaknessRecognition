@@ -49,15 +49,11 @@ class SUTEnv(object):
         ## Evaluate the scenario
         pred_label = pred.max(1, keepdim=True)[1]
         correct_label = self.testset_labels[action]
-        print("Correct label: ", pred_label[0][0].cpu().numpy(), " ", correct_label[0])
         if correct_label[0] == pred_label[0][0].cpu().numpy():
-            print("Succ")
             success = True
         else:
             success = False
-        print('here')
-        print(pred.shape)
-        print(correct_label.shape)
+
         reward = F.nll_loss(pred.cuda(), torch.from_numpy(correct_label).cuda(), size_average=False).item()
         self.update_obs(action, success, reward)
 
